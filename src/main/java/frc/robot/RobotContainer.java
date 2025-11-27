@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.wpilibj.XboxController.Button;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ComplexAuto;
@@ -17,6 +18,7 @@ import frc.robot.commands.HalveDriveSpeed;
 import frc.robot.commands.ReleaseHatch;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -34,6 +36,8 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
+  private final XboxController driverController = new XboxController(0);
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(driverController);
 
   // The autonomous routines
 
@@ -75,6 +79,7 @@ public class RobotContainer {
     // Put subsystems to dashboard.
     Shuffleboard.getTab("Drivetrain").add(m_robotDrive);
     Shuffleboard.getTab("HatchSubsystem").add(m_hatchSubsystem);
+    Shuffleboard.getTab("ShooterSubsystem").add(m_shooterSubsystem);
 
     // Log Shuffleboard events for command initialize, execute, finish, interrupt
     CommandScheduler.getInstance()
