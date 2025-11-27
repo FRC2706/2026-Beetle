@@ -98,10 +98,120 @@ public class Vision extends SubsystemBase{
 
   /** Creates a new photonAprilTag. */
   private PhotonSubsystem() {
-  //name of camera, change if using multiple cameras
-  camera1 = new PhotonCamera(PhotonConfig.rightReefCameraName);
+    //name of camera, change if using multiple cameras
+    camera1 = new PhotonCamera(PhotonConfig.rightReefCameraName);
+
+    //networktable publishers
+    NetworkTable photonTable = NetworkTableInstance.getDefault().getTable(PhotonConfig.networkTableName);
+    pubBestTagId = photonTable.getIntegerTopic("BestTagId").publish(PubSubOption.periodic(0.02));
+    pubTargetOffset = photonTable.getDoubleArrayTopic("TargetOffset").publish(PubSubOption.periodic(0.02));
+    pubBestTagHeading = photonTable.getDoubleTopic("BestTagHeading (deg)").publish(PubSubOption.periodic(0.02));
+    pubTargetRobotHeading = photonTable.getDoubleTopic("TargetRobotHeading (deg)").publish(PubSubOption.periodic(0.02));
+    pubHasData =  photonTable.getBooleanTopic("hasData").publish(PubSubOption.periodic(0.02));
+    hasTarget = NetworkTableInstance.getDefault().getBooleanTopic("/photonvision/"+PhotonConfig.rightReefCameraName + "/hasTarget").subscribe(false, PubSubOption.periodic(0.02));
+    pubSetPoint = photonTable.getDoubleArrayTopic("SetPoint(fieldToTarget)").publish(PubSubOption.periodic(0.02));
+    pubNewSetPoint = photonTable.getDoubleArrayTopic("SetPoint(new)").publish(PubSubOption.periodic(0.02));
+    pub3DTagsDebugMsg = photonTable.getStringTopic("3DTagsDebugMsg").publish(PubSubOption.periodic(0.02));
+    SmartDashboard.putData("command reset id",Commands.runOnce(()->reset()));
+
+    reset();
+
+    try {
+      aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+
+      //@todo: update cameraTransform
+      //+++photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, PhotonConfig.leftReefCameraTransform);
+    } catch (Exception e) {
+      aprilTagFieldLayout = null;
+      DriverStation.reportError("Merge's PhotonSubsystem failed to create the apriltag layout. ", false);
+    }
 
   }
+
+  public void reset() {
+    filterX.reset();
+    filterY.reset();
+    filteryaw.reset();
+    //set target info to the robot's info
+    targetRotation = SwerveSubsystem.getInstance().getPose().getRotation();
+    targetPos = SwerveSubsystem.getInstance().getPose().getTranslation();
+    //initialize vars
+    numSamples = 0;
+  }
+
+  public void resetTagAtBootup() {
+    Optional<Alliance> alliance = DriverStation.getAlliance();
+    // if (alliance.isEmpty() || alliance.get() == Alliance.Blue) {
+    //   
+    // }
+    reset();
+  }
+
+  /**
+   * Command for removing photon data and changing the target id to look for.
+   * @param tagid
+   * the id that the subsystem will now look for
+   * @return
+   * the command
+   */
+  public Command getResetCommand(){
+    return runOnce(() -> reset());
+  }
+
+  //publishes yaw(left and right)
+  public Rotation2d getYaw (){
+    return targetRotation;
+  }
+
+  /**
+   * Command that does nothing until photonSubsystem has enough data to track a target
+   * @param tagid
+   * resets the subsystem and its id
+   * @return
+   * the command
+   */
+
+  //use photonvision subsystem filter
+  public Command getWaitForDataCommand(){
+    return new FunctionalCommand(() -> reset(), ()->{}, (interrupted) ->{}, ()->hasData(), this);
+  }
+
+  // Directly use Photonvision: hasTarget. 
+  // public Command getWaitForDataCommand(){
+  //   return new FunctionalCommand(() -> {}, ()->{}, (interrupted) ->{}, ()->hasTarget.get(false), this);
+  // }
+
+  public Translation2d getTargetPos(){
+    return targetPos;
+  }
+
+  public Rotation2d getTargetRotation(){
+    return targetRotation;
+  }
+
+  public Translation2d getNewTargetPos() {
+    return newTargetPos;
+  }
+
+  public Rotation2d getTargetRobotHeading(){
+    return targetRobotHeading;
+  }
+
+  public Translation2d getTargetOffset() {
+    return targetOffset;
+  }
+
+  public boolean hasData() {
+    //if data is the max that the filters hold
+    return(numSamples >= PhotonConfig.maxNumSamples);
+  }
+
+  public boolean hasTarget()
+  {
+    return hasTarget.get();
+  }
+  
+  
 
 
 }
