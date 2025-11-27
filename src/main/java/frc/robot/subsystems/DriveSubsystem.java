@@ -4,26 +4,29 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.util.sendable.SendableBuilder;
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants.DriveConstants;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
-  // The motors on the left side of the drive.
-  private final PWMSparkMax m_leftLeader = new PWMSparkMax(DriveConstants.kLeftMotor1Port);
-  private final PWMSparkMax m_leftFollower = new PWMSparkMax(DriveConstants.kLeftMotor2Port);
+ 
+  private final WPI_TalonSRX m_leftLeader = new WPI_TalonSRX(DriveConstants.kLeftMotor1Port);
+  private final WPI_VictorSPX m_leftFollower = new WPI_VictorSPX(DriveConstants.kLeftMotor2Port);
 
-  // The motors on the right side of the drive.
-  private final PWMSparkMax m_rightLeader = new PWMSparkMax(DriveConstants.kRightMotor1Port);
-  private final PWMSparkMax m_rightFollower = new PWMSparkMax(DriveConstants.kRightMotor2Port);
+ 
+  private final WPI_TalonSRX m_rightLeader = new WPI_TalonSRX(DriveConstants.kRightMotor1Port);
+  private final WPI_VictorSPX m_rightFollower = new WPI_VictorSPX(DriveConstants.kRightMotor2Port);
 
-  // The robot's drive
-  private final DifferentialDrive m_drive =
-      new DifferentialDrive(m_leftLeader::set, m_rightLeader::set);
+
+  private final DifferentialDrive m_drive = new DifferentialDrive(m_leftLeader, m_rightLeader);
 
   // The left-side drive encoder
   private final Encoder m_leftEncoder =
@@ -39,18 +42,26 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRightEncoderPorts[1],
           DriveConstants.kRightEncoderReversed);
 
-  /** Creates a new DriveSubsystem. */
+ 
   public DriveSubsystem() {
     SendableRegistry.addChild(m_drive, m_leftLeader);
     SendableRegistry.addChild(m_drive, m_rightLeader);
 
-    m_leftLeader.addFollower(m_leftFollower);
-    m_rightLeader.addFollower(m_rightFollower);
+    // Set followers to follow the leaders
+    m_leftFollower.follow(m_leftLeader);
+    m_rightFollower.follow(m_rightLeader);
 
-    // We need to invert one side of the drivetrain so that positive voltages
-    // result in both sides moving forward. Depending on how your robot's
-    // gearbox is constructed, you might have to invert the left side instead.
+    // Set motor inversions
+    m_leftLeader.setInverted(false);
+    m_leftFollower.setInverted(InvertType.FollowMaster);
     m_rightLeader.setInverted(true);
+    m_rightFollower.setInverted(InvertType.FollowMaster);
+
+    // Set all motors to brake mode
+    m_leftLeader.setNeutralMode(NeutralMode.Brake);
+    m_leftFollower.setNeutralMode(NeutralMode.Brake);
+    m_rightLeader.setNeutralMode(NeutralMode.Brake);
+    m_rightFollower.setNeutralMode(NeutralMode.Brake);
 
     // Sets the distance per pulse for the encoders
     m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
@@ -67,19 +78,39 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
-  /** Resets the drive encoders to currently read a position of 0. */
+  /**
+   * Resets the drive encoders to currently read a position of 0.
+   */
   public void resetEncoders() {
     m_leftEncoder.reset();
     m_rightEncoder.reset();
   }
 
   /**
-   * Gets the average distance of the TWO encoders.
+   * Gets the average distance of the two encoders.
    *
-   * @return the average of the TWO encoder readings
+   * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
     return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
+  }
+
+  /**
+   * Gets the left drive encoder.
+   *
+   * @return the left drive encoder
+   */
+  public Encoder getLeftEncoder() {
+    return m_leftEncoder;
+  }
+
+  /**
+   * Gets the right drive encoder.
+   *
+   * @return the right drive encoder
+   */
+  public Encoder getRightEncoder() {
+    return m_rightEncoder;
   }
 
   /**
@@ -89,13 +120,5 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void setMaxOutput(double maxOutput) {
     m_drive.setMaxOutput(maxOutput);
-  }
-
-  @Override
-  public void initSendable(SendableBuilder builder) {
-    super.initSendable(builder);
-    // Publish encoder distances to telemetry.
-    builder.addDoubleProperty("leftDistance", m_leftEncoder::getDistance, null);
-    builder.addDoubleProperty("rightDistance", m_rightEncoder::getDistance, null);
   }
 }
