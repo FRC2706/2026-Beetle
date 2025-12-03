@@ -28,7 +28,7 @@ public class DriveDistance extends Command {
 
   @Override
   public void initialize() {
-    m_drive.resetEncoders();
+    //m_drive.resetEncoders();
     m_drive.arcadeDrive(m_speed, 0);
   }
 
@@ -40,10 +40,5 @@ public class DriveDistance extends Command {
   @Override
   public void end(boolean interrupted) {
     m_drive.arcadeDrive(0, 0);
-  }
-
-  @Override
-  public boolean isFinished() {
-    return Math.abs(m_drive.getAverageEncoderDistance()) >= m_distance;
   }
 }
