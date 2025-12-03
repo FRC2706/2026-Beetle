@@ -11,9 +11,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.ComplexAuto;
-import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.DriveDistance;
 import frc.robot.commands.GrabHatch;
 import frc.robot.commands.HalveDriveSpeed;
 import frc.robot.commands.ReleaseHatch;
@@ -38,12 +35,7 @@ public class RobotContainer {
   // The autonomous routines
 
   // A simple auto routine that drives forward a specified distance, and then stops.
-  private final Command m_simpleAuto =
-      new DriveDistance(
-          AutoConstants.kAutoDriveDistanceInches, AutoConstants.kAutoDriveSpeed, m_robotDrive);
 
-  // A complex auto routine that drives forward, drops a hatch, and then drives backward.
-  private final Command m_complexAuto = new ComplexAuto(m_robotDrive, m_hatchSubsystem);
 
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -65,8 +57,7 @@ public class RobotContainer {
    
 
     // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-    m_chooser.addOption("Complex Auto", m_complexAuto);
+
 
     // Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);
