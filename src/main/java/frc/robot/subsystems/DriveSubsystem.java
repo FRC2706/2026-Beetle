@@ -24,7 +24,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
 // try to find encoder TODO
-/** 
+
   private final Encoder m_leftEncoder =
       new Encoder(
           DriveConstants.kLeftEncoderPorts[0],
@@ -37,7 +37,6 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRightEncoderPorts[0],
           DriveConstants.kRightEncoderPorts[1],
           DriveConstants.kRightEncoderReversed);
-*/
   
   public DriveSubsystem() {
     SendableRegistry.addChild(m_drive, m_leftLeader);
@@ -53,10 +52,8 @@ public class DriveSubsystem extends SubsystemBase {
     // Set neutral mode to brake
     setNeutralMode(NeutralMode.Brake);
 
-/** 
     m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
     m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-*/
   }
 
   /**
@@ -69,19 +66,19 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
-  /* 
+  
   public void resetEncoders() {
     m_leftEncoder.reset();
     m_rightEncoder.reset();
   }
-  */
 
 
-  /** 
+
+  
   public double getAverageEncoderDistance() {
     return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
   }
-  */
+  
 
 
   public void setMaxOutput(double maxOutput) {

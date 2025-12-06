@@ -9,18 +9,15 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private final XboxController controller;
 
-    public DriverInputSubsystem (XboxController controller){
+    public ShooterSubsystem(XboxController controller) {
         this.controller = controller;
-
     }
 
-    public void periodic(){
+    @Override
+    public void periodic() {
         double left = controller.getLeftTriggerAxis();
         double right = controller.getRightTriggerAxis();
 
-        System.out.println("LT" + left + "RT" + right)
+        System.out.println("LT " + left + "  RT " + right);
     }
-
-
-
 }

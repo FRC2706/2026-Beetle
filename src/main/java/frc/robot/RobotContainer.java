@@ -30,6 +30,7 @@ public class RobotContainer {
   private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
   private final XboxController driverController = new XboxController(0);
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(driverController);
+  
 
   // The autonomous routines
 
@@ -52,11 +53,6 @@ public class RobotContainer {
             () -> -m_driverController.getLeftY(),
             () -> -m_driverController.getRightX()));
 
-    // Add commands to the autonomous command chooser
-
-
-    // Put the chooser on the dashboard
-    Shuffleboard.getTab("Autonomous").add(m_chooser);
     // Put subsystems to dashboard.
     Shuffleboard.getTab("Drivetrain").add(m_robotDrive);
     Shuffleboard.getTab("HatchSubsystem").add(m_hatchSubsystem);
