@@ -14,8 +14,11 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.GrabHatch;
 import frc.robot.commands.HalveDriveSpeed;
 import frc.robot.commands.ReleaseHatch;
+import frc.robot.commands.FlagDown;
+import frc.robot.commands.FlagUp;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
+import frc.robot.subsystems.ServoSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -31,6 +34,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
+  private final ServoSubsystem m_servoSubsystem = new ServoSubsystem();
 
   // The autonomous routines
 
@@ -89,8 +93,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, Button.kA.value).onTrue(new GrabHatch(m_hatchSubsystem));
+    // Bring Flag up when A is held
+    new JoystickButton(m_driverController, Button.kA.value).onTrue(new FlagUp(m_servoSubsystem)).onFalse(new FlagDown(m_servoSubsystem));
     // Release the hatch when the 'B' button is pressed.
     new JoystickButton(m_driverController, Button.kB.value)
         .onTrue(new ReleaseHatch(m_hatchSubsystem));

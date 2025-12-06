@@ -1,0 +1,118 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "edu.wpi.first",
+    "module": "gradle-cpp-vscode",
+    "version": "2.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.4"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.8.6"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "gradle-cpp-vscode-2.1.0.jar",
+          "url": "gradle-cpp-vscode-2.1.0.jar",
+          "size": 44267,
+          "sha512": "3ee61c1612797826e4100b24b7b2deb1ee66918b42db698cdb9784bbba4df5f5f2ce37960f4fba4bdc8747e62e852a8ae985f5d4f16b7cbabe0dc3cdd4cd6914",
+          "sha256": "42d6ca5a8a1e52c8af705a6728e4de980c45d96f26ff0e05a3c5759b38cd5664",
+          "sha1": "c1fc5d7851e7cd427cbbb3c7ae4a9406d9afed64",
+          "md5": "ca530eb020352c8c9d0a1270587f5a49"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.8.6"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "gradle-cpp-vscode-2.1.0.jar",
+          "url": "gradle-cpp-vscode-2.1.0.jar",
+          "size": 44267,
+          "sha512": "3ee61c1612797826e4100b24b7b2deb1ee66918b42db698cdb9784bbba4df5f5f2ce37960f4fba4bdc8747e62e852a8ae985f5d4f16b7cbabe0dc3cdd4cd6914",
+          "sha256": "42d6ca5a8a1e52c8af705a6728e4de980c45d96f26ff0e05a3c5759b38cd5664",
+          "sha1": "c1fc5d7851e7cd427cbbb3c7ae4a9406d9afed64",
+          "md5": "ca530eb020352c8c9d0a1270587f5a49"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "gradle-cpp-vscode-2.1.0-javadoc.jar",
+          "url": "gradle-cpp-vscode-2.1.0-javadoc.jar",
+          "size": 413499,
+          "sha512": "de158e3f1d520b02e897af4ef0ec113efb3cbf75387343b259a95910b4055ea0149374537db97922c3e25d44fcc2fda5ece37b5bb9088bfcee2ccfe956ea42e8",
+          "sha256": "f0e1fbad59878f0f04951d1eac46c745bf1d9537a17fd1de5448aa7ca4ec5b0e",
+          "sha1": "80e062b98b5e0119dafd580c0dea490e77741ec2",
+          "md5": "7e9da02606e2d0583fd97e905bd3855b"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "gradle-cpp-vscode-2.1.0-sources.jar",
+          "url": "gradle-cpp-vscode-2.1.0-sources.jar",
+          "size": 21949,
+          "sha512": "d8425d0de510b01c2446cd195e4146508f804c7558fded10a2c8699ea9678f288b8dab2086feac91a179f5d90cab0f845d07077b1d8946bba5e1cc87ce2b3dd3",
+          "sha256": "74fe53e7d2f301f9c50bdd2a92a1c68482138c576401c36c6bb93e5009fc8eaa",
+          "sha1": "edcded5430099149604e840081d8041a5de7bda4",
+          "md5": "b69c190c870394eb9e2cd134e2f96efd"
+        }
+      ]
+    }
+  ]
+}

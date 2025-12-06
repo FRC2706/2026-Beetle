@@ -1,0 +1,167 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "edu.wpi.first",
+    "module": "DeployUtils",
+    "version": "2025.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.5"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.jcraft",
+          "module": "jsch",
+          "version": {
+            "requires": "0.1.55"
+          }
+        },
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.8.6"
+          }
+        },
+        {
+          "group": "org.apache.sshd",
+          "module": "sshd-core",
+          "version": {
+            "requires": "2.13.2"
+          }
+        },
+        {
+          "group": "org.apache.sshd",
+          "module": "sshd-sftp",
+          "version": {
+            "requires": "2.13.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "DeployUtils-2025.2.0.jar",
+          "url": "DeployUtils-2025.2.0.jar",
+          "size": 101126,
+          "sha512": "d548b21762c404b2ec7a07b7f34b0a4a03e6a8723f3d70b8d47afd6d8320ffe3e860dfb6ef61b8aae4173a42d9a534fd0131aca44f89e10c9abd7656707fe658",
+          "sha256": "c09f0c5a96e2d5ac63f91c2f12dae722a7845bb07493f349a7776fc0c53659a3",
+          "sha1": "aad2b293543fd0cf75dcc22c294783bb8833c868",
+          "md5": "091cd5b07f6618e183d0f807de81fd8c"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "net.i2p.crypto",
+          "module": "eddsa",
+          "version": {
+            "requires": "0.3.0"
+          }
+        },
+        {
+          "group": "com.jcraft",
+          "module": "jsch",
+          "version": {
+            "requires": "0.1.55"
+          }
+        },
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.8.6"
+          }
+        },
+        {
+          "group": "org.apache.sshd",
+          "module": "sshd-core",
+          "version": {
+            "requires": "2.13.2"
+          }
+        },
+        {
+          "group": "org.apache.sshd",
+          "module": "sshd-sftp",
+          "version": {
+            "requires": "2.13.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "DeployUtils-2025.2.0.jar",
+          "url": "DeployUtils-2025.2.0.jar",
+          "size": 101126,
+          "sha512": "d548b21762c404b2ec7a07b7f34b0a4a03e6a8723f3d70b8d47afd6d8320ffe3e860dfb6ef61b8aae4173a42d9a534fd0131aca44f89e10c9abd7656707fe658",
+          "sha256": "c09f0c5a96e2d5ac63f91c2f12dae722a7845bb07493f349a7776fc0c53659a3",
+          "sha1": "aad2b293543fd0cf75dcc22c294783bb8833c868",
+          "md5": "091cd5b07f6618e183d0f807de81fd8c"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "DeployUtils-2025.2.0-javadoc.jar",
+          "url": "DeployUtils-2025.2.0-javadoc.jar",
+          "size": 324763,
+          "sha512": "c96c7045cb55155a302ccfa26f12b62d7bfd77451eab24886d685d2f3faefcd2e32034b8851eb1a7a83ef7425a9fa9cc9525e9cbc286dd353b1d52868a32190f",
+          "sha256": "65fcd16da901c3b38c820bd41288fc2d304b89484a554d3154a331ab63b55955",
+          "sha1": "55724ea2846aec4887e69803c7461259386ab51f",
+          "md5": "db4aa09ae4f035a5c557e05a16abc398"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "DeployUtils-2025.2.0-sources.jar",
+          "url": "DeployUtils-2025.2.0-sources.jar",
+          "size": 49187,
+          "sha512": "ee9831c3e0baf221c9fe39ef912858df5ca0664f9a5add65bbd036b1c3f23887236dab5e076e7e6104fd6b97d720dfc07b6c23fc0b782d9829099a69517a5fb3",
+          "sha256": "bbe4dac4f8e8e0f52e7def6b5492c5a6c0524214d76c31300aa50a225800a074",
+          "sha1": "02f26e170073df0379cdfd5cfa5f9b8e6b93797c",
+          "md5": "007593994e3090e3430a0257c3b393fb"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "edu.wpi.first",
+    "module": "ToolchainPlugin",
+    "version": "2025.9.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.11"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "edu.wpi.first",
+          "module": "DeployUtils",
+          "version": {
+            "requires": "2025.2.0"
+          }
+        },
+        {
+          "group": "de.undercouch",
+          "module": "gradle-download-task",
+          "version": {
+            "requires": "4.0.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "ToolchainPlugin-2025.9.1.jar",
+          "url": "ToolchainPlugin-2025.9.1.jar",
+          "size": 62582,
+          "sha512": "49a796fc71d766633e13320d4b3d85f986467bb64c1d1da2b55fea6a4e7e6899205d164ef46bf5a61095fc49c88894d9e6a6c44d974db66bb1d12079d4edfe99",
+          "sha256": "b528817ad7d664c5acf93c56ecf8384de5af1842199d10895e8a93b244907224",
+          "sha1": "23284ee7d8d13fce7a221b8044c185492275e456",
+          "md5": "f7b3e607619b8152dde160f9790a74c8"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "edu.wpi.first",
+          "module": "DeployUtils",
+          "version": {
+            "requires": "2025.2.0"
+          }
+        },
+        {
+          "group": "de.undercouch",
+          "module": "gradle-download-task",
+          "version": {
+            "requires": "4.0.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "ToolchainPlugin-2025.9.1.jar",
+          "url": "ToolchainPlugin-2025.9.1.jar",
+          "size": 62582,
+          "sha512": "49a796fc71d766633e13320d4b3d85f986467bb64c1d1da2b55fea6a4e7e6899205d164ef46bf5a61095fc49c88894d9e6a6c44d974db66bb1d12079d4edfe99",
+          "sha256": "b528817ad7d664c5acf93c56ecf8384de5af1842199d10895e8a93b244907224",
+          "sha1": "23284ee7d8d13fce7a221b8044c185492275e456",
+          "md5": "f7b3e607619b8152dde160f9790a74c8"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "ToolchainPlugin-2025.9.1-javadoc.jar",
+          "url": "ToolchainPlugin-2025.9.1-javadoc.jar",
+          "size": 183189,
+          "sha512": "4a9723dec2e68f9417d63c4b18680c97de820a8182345967f22427901fe10ba76840f87baeca133b872a95009c3fd28003d9906d9c8e2c9a73c9336d068c19a8",
+          "sha256": "72ef30bb483d00072768700e62bb29a8b03b31b60955177885669b501ddda581",
+          "sha1": "794279a58051df15f3273565836f6c3853ce81be",
+          "md5": "7ee243a682ebbd6ab249edd5303cfefa"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "ToolchainPlugin-2025.9.1-sources.jar",
+          "url": "ToolchainPlugin-2025.9.1-sources.jar",
+          "size": 27040,
+          "sha512": "18a3fac7d12889c25ea69158a5f92fd9cc99216b8f7adfa8fc0cd59d89c234d66dcd9be1b0bfe824115fdf7c45f4f7f0f3e15ebd261b8a8431578552e75291d9",
+          "sha256": "85baba83c1b11f0eb9d4af4110fc88e45f823d3208b9c81f633d8ff4a6d1684b",
+          "sha1": "fac7f7388b1680ccfadcb2b83b876bc68ada900d",
+          "md5": "bcbef2fc42537e8e61518cdd34d1ba21"
+        }
+      ]
+    }
+  ]
+}

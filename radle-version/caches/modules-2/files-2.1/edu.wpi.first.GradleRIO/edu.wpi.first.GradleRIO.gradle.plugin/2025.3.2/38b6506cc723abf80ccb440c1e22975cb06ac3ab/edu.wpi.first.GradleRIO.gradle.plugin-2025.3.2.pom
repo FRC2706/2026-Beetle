@@ -1,0 +1,14 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+      <modelVersion>4.0.0</modelVersion>
+      <groupId>edu.wpi.first.GradleRIO</groupId>
+      <artifactId>edu.wpi.first.GradleRIO.gradle.plugin</artifactId>
+      <version>2025.3.2</version>
+      <packaging>pom</packaging>
+      <dependencies>
+        <dependency>
+          <groupId>edu.wpi.first</groupId>
+          <artifactId>GradleRIO</artifactId>
+          <version>2025.3.2</version>
+        </dependency>
+      </dependencies>
+    </project>
