@@ -17,6 +17,7 @@ import frc.robot.commands.ReleaseHatch;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.AutoSelectorKnobSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,16 +31,12 @@ public class RobotContainer {
   private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
   private final XboxController driverController = new XboxController(0);
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(driverController);
-  
+  private final AutoSelectorKnobSubsystem m_AutoSelectorKnobSubsystem = new AutoSelectorKnobSubsystem();
 
   // The autonomous routines
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-
-  // configering the knob
-  private final AnalogInput autoSelectorKnob = new AnalogInput(0); // port for knob
-  private static final int NUM_AUTOS = 12; // 12 knob positions
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -92,12 +89,47 @@ public class RobotContainer {
         .whileTrue(new HalveDriveSpeed(m_robotDrive));
   }
 
+
   /** Read the knob voltage and convert it into an autonomous mode number (0-11). */
   private int getAutoMode() {
-    double voltage = autoSelectorKnob.getVoltage(); // 0-5V
-    double normalized = voltage / 5.0;
-    int mode = (int)(normalized * NUM_AUTOS);
-    return Math.min(mode, NUM_AUTOS - 1);
+    double voltage = m_AutoSelectorKnobSubsystem.getVoltage(); // 0-5V
+    if (voltage <= 2.64){
+      return 0;
+    }
+    else if (voltage <= 3.01){
+      return 1;
+    }
+    else if (voltage <= 3.27){
+      return 2;
+    }
+    else if (voltage <= 3.62){
+      return 3;
+    }
+    else if (voltage <= 3.86){
+      return 4;
+    }
+    else if (voltage <= 4.01){
+      return 5;
+    }
+    else if (voltage <= 4.13){
+      return 6;
+    }
+    else if (voltage <= 4.22){
+      return 7;
+    }
+    else if (voltage <= 4.29){
+      return 8;
+    }
+    else if (voltage <= 4.38){
+      return 9;
+    }
+    else if (voltage <= 4.45){
+      return 10;
+    }
+    else{
+      return 11;
+    }
+
   }
 
   /** This function returns the autonomous command based on the knob position. */
@@ -112,7 +144,24 @@ public class RobotContainer {
         return new DriveDistance(39, 0.3, m_robotDrive);
       case 2:
         return new DriveTimed(2.0, 0.3, m_robotDrive);
-      
+      case 3:
+        return null;
+      case 4:
+        return null;
+      case 5:
+        return null;
+      case 6:
+        return null;
+      case 7:
+        return null;
+      case 8:
+        return null;
+      case 9:
+        return null;
+      case 10:
+        return null;
+      case 11:
+        return null;
       default:
         return null;
     }
