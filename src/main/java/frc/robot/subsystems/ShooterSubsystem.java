@@ -18,6 +18,6 @@ public class ShooterSubsystem extends SubsystemBase {
         double left = controller.getLeftTriggerAxis();
         double right = controller.getRightTriggerAxis();
 
-        System.out.println("LT " + left + "  RT " + right);
+       // System.out.println("LT " + left + "  RT " + right);
     }
 }
