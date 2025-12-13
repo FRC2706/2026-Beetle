@@ -33,7 +33,7 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
   private final XboxController driverController = new XboxController(0);
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(driverController);
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
   // The autonomous routines
 

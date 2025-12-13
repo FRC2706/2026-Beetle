@@ -7,9 +7,9 @@ import edu.wpi.first.math.MathUtil;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-    private final XboxController controller;
+    private XboxController controller;
 
-    public DriverInputSubsystem (XboxController controller){
+    public void DriverInputSubsystem (XboxController controller){
         this.controller = controller;
 
     }
@@ -18,7 +18,7 @@ public class ShooterSubsystem extends SubsystemBase {
         double left = controller.getLeftTriggerAxis();
         double right = controller.getRightTriggerAxis();
 
-        System.out.println("LT" + left + "RT" + right)
+        System.out.println("LT" + left + "RT" + right);
     }
 
 
