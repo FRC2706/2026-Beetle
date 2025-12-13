@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.GrabHatch;
+//import frc.robot.commands.GrabHatch;
 import frc.robot.commands.HalveDriveSpeed;
-import frc.robot.commands.ReleaseHatch;
+//import frc.robot.commands.ReleaseHatch;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -24,6 +24,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import java.lang.ModuleLayer.Controller;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -31,9 +33,9 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
-  private final XboxController driverController = new XboxController(0);
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  //private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
+  private final XboxController driverController = new XboxController(OIConstants.kOperatorControllerPort);
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(driverController);
 
   // The autonomous routines
 
@@ -66,7 +68,7 @@ public class RobotContainer {
     Shuffleboard.getTab("Autonomous").add(m_chooser);
     // Put subsystems to dashboard.
     Shuffleboard.getTab("Drivetrain").add(m_robotDrive);
-    Shuffleboard.getTab("HatchSubsystem").add(m_hatchSubsystem);
+    //Shuffleboard.getTab("HatchSubsystem").add(m_hatchSubsystem);
     Shuffleboard.getTab("ShooterSubsystem").add(m_shooterSubsystem);
 
     // Log Shuffleboard events for command initialize, execute, finish, interrupt
@@ -94,13 +96,13 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, Button.kA.value).onTrue(new GrabHatch(m_hatchSubsystem));
+    //new JoystickButton(m_driverController, Button.kA.value).onTrue(new GrabHatch(m_hatchSubsystem));
     // Release the hatch when the 'B' button is pressed.
-    new JoystickButton(m_driverController, Button.kB.value)
-        .onTrue(new ReleaseHatch(m_hatchSubsystem));
+    //new JoystickButton(m_driverController, Button.kB.value)
+    //    .onTrue(new ReleaseHatch(m_hatchSubsystem));
     // While holding the shoulder button, drive at half speed
-    new JoystickButton(m_driverController, Button.kRightBumper.value)
-        .whileTrue(new HalveDriveSpeed(m_robotDrive));
+    //new JoystickButton(m_driverController, Button.kRightBumper.value)
+     //   .whileTrue(new HalveDriveSpeed(m_robotDrive));
   }
 
   public Command getAutonomousCommand() {
