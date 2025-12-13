@@ -210,10 +210,170 @@ public class Vision extends SubsystemBase{
   {
     return hasTarget.get();
   }
+  @Override
+  public void periodic() {
+
+    Pose2d fieldToTarget = null;
+    
+    // Must be set by 2D or 3D mode;
+    //@todo: test 2D and 3D mode both
+   // PhotonPipelineResult result = camera1.getLatestResult();
+    //@todo: to test...
+    List<PhotonPipelineResult> listResult;
+
+    try {
+      listResult = camera1.getAllUnreadResults();
+      isCameraConnected = true;
+    } catch (Exception e) {
+
+      // Print the error message only once when the camera is disconnects
+      if (isCameraConnected) {
+        DriverStation.reportError("PhotonSubsystem no camera found: \n" + e, false);
+        isCameraConnected = false;
+      }
+      return; // No camera connected
+    }
+
+    if (listResult.isEmpty() == true)
+    {
+      return;
+    }
+    PhotonPipelineResult result = listResult.get(listResult.size() - 1);
+    if (result == null)
+      return;
+
+    if (result.getTimestampSeconds() == recentTimeStamp){
+      //--System.out.println("time stamp is stale");
+      return;
+    }
+    recentTimeStamp = result.getTimestampSeconds();
+
+    if(result.hasTargets()==false)
+    { 
+     // System.out.println("result does not have any target");
+      return;
+    }
+
+    //if (PhotonConfig.USE_3D_TAGS) 
+    //====================
+    {     
+      //Get the best target
+      PhotonTrackedTarget target = result.getBestTarget();
+
+      if (target == null)
+      {
+        //System.out.println("Best target is null");
+        return;
+      }
+
+      bestTagId = target.getFiducialId();
+      targetOffset = Config.PhotonConfig.targetOffsetMap.get(bestTagId);
+      pubBestTagId.accept(bestTagId);
+      pubTargetOffset.accept(new double[]{targetOffset.getX(), targetOffset.getY()});
+      
+      //@todo: validate bestTagId based on red or blue. May not need to check red or blue
+      //if not valid tagId, return
+      Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(bestTagId);
+      Pose3d tagIdPose;
+      if (tagPose.isEmpty())
+      {
+        //reset to default values
+        pubBestTagHeading.accept(-1);
+        pubTargetRobotHeading.accept(-1);
+        return;
+      }
+      else
+      {
+        tagIdPose = tagPose.get();
+        bestTagHeading = tagIdPose.getRotation().toRotation2d();
   
+        //due to the camera is at the back
+        targetRobotHeading = bestTagHeading;
+
+       //for red tags: no need to add 180
+       //--targetRobotHeading = bestTagHeading.plus(Rotation2d.fromDegrees(180));
+       //targetRobotHeading = bestTagHeading;
+        pubBestTagHeading.accept(bestTagHeading.getDegrees());
+        pubTargetRobotHeading.accept(targetRobotHeading.getDegrees());
+       
+      }
+       ////New option
+      /// ===========================================================
+     {
+      //get the swerve pose at the time that the result was gotten
+      Optional<Pose2d> optPose= SwerveSubsystem.getInstance().getPoseAtTimestamp(result.getTimestampSeconds());
+      //for security reasons
+      if (optPose.isEmpty()){
+        //System.out.println("the odometryPose is empty");
+        return;
+      }
+      else
+      {
+        Pose2d odometryPose = optPose.get();
+
+        //@todo: need to update cameraTransform for the new camera location
+        Transform3d robotToTarget3d = PhotonConfig.rightReefCameraTransform.plus(target.getBestCameraToTarget());
+        Transform2d robotToTarget = new Transform2d(robotToTarget3d.getTranslation().toTranslation2d(), robotToTarget3d.getRotation().toRotation2d());
+
+        // Map the position of the tag relative to the current odometry pose with latency compensation
+        fieldToTarget = odometryPose.plus(robotToTarget);
+
+        pub3DTagsDebugMsg.accept("Transform2d from robot to tag: " + robotToTarget.toString());
+      } 
+    }
+
+     //previous poseEstimation option
+    //********************************/
+    // {
+    //   Optional<EstimatedRobotPose> optEstPose = photonPoseEstimator.update(result);
+    //   if (optEstPose.isEmpty()) {
+    //     pub3DTagsDebugMsg.accept("EmptyEstimatedRobotPose"); 
+    //     return;
+    //   }      
+    //   // Grab the pose from when the image was taken to compensate for how much the robot has moved since the image was taken
+    //   Optional<Pose2d> odometryPose = SwerveSubsystem.getInstance().getPoseAtTimestamp(optEstPose.get().timestampSeconds);
+    //   if (odometryPose.isEmpty()) {
+    //     pub3DTagsDebugMsg.accept("No odometry pose at timestamp: " + optEstPose.get().timestampSeconds);
+    //     return;
+    //   }
+    //   else
+    //   {
+    //       // Create a transform that maps the change in Pose between the robot estimated position and the true tag position
+    //     Transform2d robotToTarget = new Transform2d(optEstPose.get().estimatedPose.toPose2d(), tagPose.get().toPose2d());
+
+    //     // Map the position of the tag relative to the current odometry pose with latency compensation
+    //     fieldToTarget = odometryPose.get().plus(robotToTarget);
+    //     pub3DTagsDebugMsg.accept("Transform2d from robot to tag:" + robotToTarget.toString());
+
+    //   }
+    // }
+
+
+    } 
+ 
+    if (fieldToTarget != null) {
+      //update rolling averages
+      targetPos = new Translation2d(
+          filterX.calculate(fieldToTarget.getX()),
+          filterY.calculate(fieldToTarget.getY()));
+      targetRotation = Rotation2d.fromDegrees(filteryaw.calculate(fieldToTarget.getRotation().getDegrees()));
+      numSamples++;
+
+      if (numSamples == PhotonConfig.maxNumSamples)
+      {
+        //save the set piont
+        newTargetPos = targetPos;
+
+      }
+
+      //publish to networktables
+      pubSetPoint.accept(new double[]{targetPos.getX(), targetPos.getY(), targetRotation.getRadians()});
+      pubNewSetPoint.accept(new double[]{newTargetPos.getX(), newTargetPos.getY(), -1.0});
+    
+    }
   
-
-
-
+  pubHasData.accept(hasData());
+  }
 }
+
 
