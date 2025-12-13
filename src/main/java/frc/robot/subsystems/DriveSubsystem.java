@@ -22,21 +22,13 @@ public class DriveSubsystem extends SubsystemBase {
   
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftLeader, m_rightLeader);
 
-
-// try to find encoder TODO
 /** 
-  private final Encoder m_leftEncoder =
-      new Encoder(
-          DriveConstants.kLeftEncoderPorts[0],
-          DriveConstants.kLeftEncoderPorts[1],
-          DriveConstants.kLeftEncoderReversed);
+
+  private final Encoder m_leftEncoder = 
+      
 
   
-  private final Encoder m_rightEncoder =
-      new Encoder(
-          DriveConstants.kRightEncoderPorts[0],
-          DriveConstants.kRightEncoderPorts[1],
-          DriveConstants.kRightEncoderReversed);
+  private final Encoder m_rightEncoder = 
 */
   
   public DriveSubsystem() {
@@ -50,38 +42,43 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftLeader.setInverted(false);  
     m_rightLeader.setInverted(false); 
 
-    // Set neutral mode to brake
+  
     setNeutralMode(NeutralMode.Brake);
 
-/** 
+/**
     m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
     m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-*/
+ */
   }
 
   /**
-   * Drives the robot using arcade controls.
+   * 
    *
-   * @param fwd the commanded forward movement
-   * @param rot the commanded rotation
+   * @param fwd 
+   * @param rot 
    */
   public void arcadeDrive(double fwd, double rot) {
     m_drive.arcadeDrive(fwd, rot);
   }
 
-  /* 
+  
   public void resetEncoders() {
+    /**
     m_leftEncoder.reset();
     m_rightEncoder.reset();
+    */
   }
-  */
+  
 
 
-  /** 
+   
   public double getAverageEncoderDistance() {
+    /** 
     return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
+    */
+    return 0.0;
   }
-  */
+  
 
 
   public void setMaxOutput(double maxOutput) {
