@@ -21,42 +21,24 @@ public class DriveSubsystem extends SubsystemBase {
   private final WPI_TalonSRX m_rightLeader = new WPI_TalonSRX(1);
   
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftLeader, m_rightLeader);
-
-
-// try to find encoder TODO
-/** 
-  private final Encoder m_leftEncoder =
-      new Encoder(
-          DriveConstants.kLeftEncoderPorts[0],
-          DriveConstants.kLeftEncoderPorts[1],
-          DriveConstants.kLeftEncoderReversed);
-
-  
-  private final Encoder m_rightEncoder =
-      new Encoder(
-          DriveConstants.kRightEncoderPorts[0],
-          DriveConstants.kRightEncoderPorts[1],
-          DriveConstants.kRightEncoderReversed);
-*/
   
   public DriveSubsystem() {
     SendableRegistry.addChild(m_drive, m_leftLeader);
-    SendableRegistry.addChild(m_drive, m_rightLeader);
-
-   
+    SendableRegistry.addChild(m_drive, m_rightLeader);   
     m_leftLeader.configFactoryDefault();
     m_rightLeader.configFactoryDefault();
 
     m_leftLeader.setInverted(false);  
     m_rightLeader.setInverted(false); 
-
+    
     // Set neutral mode to brake
     setNeutralMode(NeutralMode.Brake);
+    resetEncoders();
 
-/** 
-    m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-    m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-*/
+  }
+
+  public void getEncoder(){
+    System.out.println("Distance:" + averageDistanceDriven());
   }
 
   /**
@@ -69,20 +51,15 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
-  /* 
+  // Sets current position of encoders to be 0  
   public void resetEncoders() {
-    m_leftEncoder.reset();
-    m_rightEncoder.reset();
+    m_leftLeader.setSelectedSensorPosition(0);
+    m_rightLeader.setSelectedSensorPosition(0);
   }
-  */
-
-
-  /** 
-  public double getAverageEncoderDistance() {
-    return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
+  
+  public double averageDistanceDriven() {
+    return ((m_leftLeader.getSelectedSensorPosition() + m_rightLeader.getSelectedSensorPosition()) / 2.0) * DriveConstants.kEncoderDistancePerPulse;
   }
-  */
-
 
   public void setMaxOutput(double maxOutput) {
     m_drive.setMaxOutput(maxOutput);

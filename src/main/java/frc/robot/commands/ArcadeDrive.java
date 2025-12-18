@@ -19,6 +19,7 @@ public class ArcadeDrive extends Command {
     @Override
     public void execute() {
         m_driveSubsystem.arcadeDrive(m_forward.getAsDouble(), m_rotation.getAsDouble());
+        m_driveSubsystem.getEncoder();
     }
 
     @Override
