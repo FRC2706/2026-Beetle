@@ -56,6 +56,12 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftLeader.setSelectedSensorPosition(0);
     m_rightLeader.setSelectedSensorPosition(0);
   }
+
+  public void printGyro(){
+    System.out.println("Pitch:" + getPitch());
+    System.out.println("Yaw:" + getYaw());
+    System.out.println("Roll:" + getRoll());
+  }
   
   public double averageDistanceDriven() {
     return ((m_leftLeader.getSelectedSensorPosition() + m_rightLeader.getSelectedSensorPosition()) / 2.0) * DriveConstants.kEncoderDistancePerPulse;
@@ -94,7 +100,5 @@ public class DriveSubsystem extends SubsystemBase {
   public double getRoll(){
     return m_gyro.getRoll();
   }
-
-
 
 }
