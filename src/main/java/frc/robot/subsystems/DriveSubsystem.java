@@ -42,10 +42,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Drives the robot using arcade controls.
+   * 
    *
-   * @param fwd the commanded forward movement
-   * @param rot the commanded rotation
+   * @param fwd 
+   * @param rot 
    */
   public void arcadeDrive(double fwd, double rot) {
     m_drive.arcadeDrive(fwd, rot);

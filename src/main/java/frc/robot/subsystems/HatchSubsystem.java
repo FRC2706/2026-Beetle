@@ -35,6 +35,6 @@ public class HatchSubsystem extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
     // Publish the solenoid state to telemetry.
-    builder.addBooleanProperty("extended", () -> m_hatchSolenoid.get() == kForward, null);
+    //builder.addBooleanProperty("extended", () -> m_hatchSolenoid.get() == kForward, null);
   }
 }
