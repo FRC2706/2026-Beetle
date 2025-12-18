@@ -18,6 +18,7 @@ import frc.robot.commands.ReleaseHatch;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.AutoSelectorKnobSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,16 +33,12 @@ public class RobotContainer {
   private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
   private final XboxController driverController = new XboxController(0);
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(driverController);
-  
+  private final AutoSelectorKnobSubsystem m_AutoSelectorKnobSubsystem = new AutoSelectorKnobSubsystem();
 
   // The autonomous routines
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-
-  // configering the knob
-  private final AnalogInput autoSelectorKnob = new AnalogInput(0); // port for knob
-  private static final int NUM_AUTOS = 12; // 12 knob positions
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -94,46 +91,30 @@ public class RobotContainer {
         .whileTrue(new HalveDriveSpeed(m_robotDrive));
   }
 
+
   /** Read the knob voltage and convert it into an autonomous mode number (0-11). */
-  private double getAutoMode() {
+  private int getAutoMode() {
     double voltage = autoSelectorKnob.getVoltage(); // 0-5V
     double normalized = voltage / 5.0;
-    return voltage;
+    int mode = (int)(normalized * NUM_AUTOS);
+    return Math.min(mode, NUM_AUTOS - 1);
   }
   
   /** This function returns the autonomous command based on the knob position. */
   public Command getAutonomousCommand() {
-    double mode = getAutoMode();
-    return new IDKPRINT(getAutoMode());
-   // switch (mode) {
-      //case 0:
-       // return new PrintCommand("knob #0");
-      //case 1:
-       //return new PrintCommand("knob #1");
-// DriveDistance(39, 0.3, m_robotDrive);
-     // case 2:
-       // return new PrintCommand("knob #2");
-//DriveTimed(2.0, 0.3, m_robotDrive);
-      
-      //default:
-        //return null;
-   
-        //}
-        
-  }
-    
-}
+    int mode = getAutoMode();
+    System.out.println("Auto Mode = " + mode); // debug print
 
-/** volts
- * 1 = 2.59
- * 2 = 2.96
- * 3 = 3.22
- * 4 = 3.58
- * 5 = 3.81
- * 6 = 3.96
- * 7 = 4.09
- * 8 = 4.18
- * 9 = 4.25
- * 10 = 4.35
- * 11 = 4.42
- * 12 = 4.49 **/
+    switch (mode) {
+      case 0:
+        return null; // do nothing
+      case 1:
+        return new DriveDistance(39, 0.3, m_robotDrive);
+      case 2:
+        return new DriveTimed(2.0, 0.3, m_robotDrive);
+      
+      default:
+        return null;
+    }
+  }
+}
