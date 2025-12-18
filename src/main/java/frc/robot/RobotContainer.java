@@ -13,17 +13,20 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArcadeDrive;
 //import frc.robot.commands.GrabHatch;
 import frc.robot.commands.HalveDriveSpeed;
+import frc.robot.commands.startShooter;
 //import frc.robot.commands.ReleaseHatch;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.HatchSubsystem;
+//import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import java.lang.ModuleLayer.Controller;
 import java.util.function.DoubleSupplier;
@@ -51,6 +54,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+    System.out.println("configure button bindings");
     configureButtonBindings();
 
 
@@ -95,6 +99,11 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+    //setVoltage cmd when left trigger pressed (0.10 to prevent accidental triggering)
+    new JoystickButton(m_driverController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> System.out.println("running startShooter command")));
+
+    //replace print with this once button press detection working -> new startShooter(m_shooterSubsystem)
+
     // Grab the hatch when the 'A' button is pressed.
     //new JoystickButton(m_driverController, Button.kA.value).onTrue(new GrabHatch(m_hatchSubsystem));
     // Release the hatch when the 'B' button is pressed.
