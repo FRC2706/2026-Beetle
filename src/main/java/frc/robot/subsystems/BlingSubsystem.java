@@ -37,21 +37,21 @@ public class BlingSubsystem extends SubsystemBase {
     candle.configBrightnessScalar(Brightness);
   }
 
-  public void setColor(int red, int blue, int green) {
+  public void setColour(int red, int blue, int green) {
     candle.clearAnimation(0);
     candle.setLEDs(red, blue, green);
   }
 
   public void setPurple() {
-    setColor(138, 43, 226);
+    setColour(138, 43, 226);
   }
 
   public void setGreen() {
-    setColor(0, 255, 0);
+    setColour(0, 255, 0);
   }
 
-  public void setGreen() {
-    setColor(255, 0, 0);
+  public void setRed() {
+    setColour(255, 0, 0);
   }
 
   @Override
