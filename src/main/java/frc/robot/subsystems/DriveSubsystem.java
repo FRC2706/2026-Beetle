@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -21,6 +22,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final WPI_TalonSRX m_rightLeader = new WPI_TalonSRX(1);
   
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftLeader, m_rightLeader);
+
+  private final PigeonIMU m_gyro = new PigeonIMU(27);
   
   public DriveSubsystem() {
     SendableRegistry.addChild(m_drive, m_leftLeader);
@@ -34,11 +37,8 @@ public class DriveSubsystem extends SubsystemBase {
     // Set neutral mode to brake
     setNeutralMode(NeutralMode.Brake);
     resetEncoders();
+    m_gyro.configFactoryDefault();
 
-  }
-
-  public void getEncoder(){
-    System.out.println("Distance:" + averageDistanceDriven());
   }
 
   /**
@@ -65,16 +65,36 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.setMaxOutput(maxOutput);
   }
 
-
   public void stopMotors() {
     m_leftLeader.stopMotor();
     m_rightLeader.stopMotor();
   }
 
-  
   public void setNeutralMode(NeutralMode mode) {
     m_leftLeader.setNeutralMode(mode);
     m_rightLeader.setNeutralMode(mode);
     
   }
+
+  // Sets all different current rotations to 0
+  public void resetGyro(){
+    m_gyro.setYaw(0);
+    m_gyro.setCompassAngle(0);
+    m_gyro.setAccumZAngle(0);
+  }
+
+  public double getPitch(){
+    return m_gyro.getPitch();
+  }
+
+  public double getYaw(){
+    return m_gyro.getYaw();
+  }
+
+  public double getRoll(){
+    return m_gyro.getRoll();
+  }
+
+
+
 }
