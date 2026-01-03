@@ -75,6 +75,10 @@ public class BlingCommands {
   }
  
   
+  @Override
+  public void teleopInit() {
+    System.out.println("LED set to purple");
+  }
 
   @Override
   public void peridodic()
