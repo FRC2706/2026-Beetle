@@ -29,7 +29,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Joystick;
-
+import frc.robot.subsystems.ServoArmSubsystem;
+import frc.robot.commands.TestCommand;
 
 public class RobotContainer {
   // The robot's subsystems
@@ -38,6 +39,7 @@ public class RobotContainer {
   //private final XboxController driverController = new XboxController(0);
   //private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final ServoSubsystem m_servoSubsystem = new ServoSubsystem();
+  private final ServoArmSubsystem m_ServoArmSubsystem = new ServoArmSubsystem();
 
   // The autonomous routines
 
@@ -101,7 +103,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kA.value).onTrue(new FlagUp(m_servoSubsystem)).onFalse(new FlagDown(m_servoSubsystem));
     // Release the hatch when the 'B' button is pressed.
     new JoystickButton(m_driverController, Button.kB.value)
-        .onTrue(new ReleaseHatch(m_hatchSubsystem));
+        .onTrue(new TestCommand(m_ServoArmSubsystem));
     // While holding the shoulder button, drive at half speed
     new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new HalveDriveSpeed(m_robotDrive));
