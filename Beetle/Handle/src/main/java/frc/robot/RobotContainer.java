@@ -115,7 +115,15 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new HalveDriveSpeed(m_robotDrive));
   }
-
+  // Right trigger because it is hard coded to work for the right corals (no camera for left)
+  driver.rightTrigger().onTrue(Commands.runOnce(() -> TeleopSwerve.setSpeeds(TeleopSpeeds.VISION)))
+      .onFalse(Commands.runOnce(() -> TeleopSwerve.setSpeeds(TeleopSpeeds.MAX)));
+  driver.rightTrigger().onTrue(Commands.runOnce(() -> PhotonSubsystem.getInstance().reset())); // Re-acquire target every time button is pressed
+  driver.rightTrigger().and(() -> PhotonSubsystem.getInstance().hasData()) // Run vision command while button is pressed down AND a target is found
+      .whileTrue(Commands.deadline(
+          new PhotonMoveToTarget(false, false, false),
+          new BlingCommand(BlingColour.BLUESTROBE)));
+  driver.rightTrigger().onFalse(new BlingCommand(BlingColour.DISABLED));
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -123,5 +131,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
+    
   }
+  
 }
