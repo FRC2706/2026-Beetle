@@ -29,8 +29,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.subsystems.ServoArmSubsystem;
-import frc.robot.commands.TestCommand;
+
+import frc.robot.commands.ClawGrab;
+import frc.robot.commands.ClawRelease;
+import frc.robot.commands.ElbowControl;
+import frc.robot.commands.ShoulderControl;
+import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.ElbowSubsystem;
+import frc.robot.subsystems.ShoulderSubsystem;
+
 
 public class RobotContainer {
   // The robot's subsystems
@@ -39,7 +46,10 @@ public class RobotContainer {
   //private final XboxController driverController = new XboxController(0);
   //private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final ServoSubsystem m_servoSubsystem = new ServoSubsystem();
-  private final ServoArmSubsystem m_ServoArmSubsystem = new ServoArmSubsystem();
+
+  private final ClawSubsystem m_ClawSubsystem = new ClawSubsystem();
+  private final ElbowSubsystem m_ElbowSubsystem = new ElbowSubsystem();
+  private final ShoulderSubsystem m_ShoulderSubsystem = new ShoulderSubsystem();
 
   // The autonomous routines
 
@@ -52,6 +62,9 @@ public class RobotContainer {
     // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
+  // Operator controller
+  XboxController m_operatorController = new XboxController(1);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -63,7 +76,9 @@ public class RobotContainer {
             m_robotDrive,
             () -> -m_driverController.getLeftY(),
             () -> -m_driverController.getRightX()));
-   
+    
+    m_ShoulderSubsystem.setDefaultCommand(new ShoulderControl(m_ShoulderSubsystem,m_operatorController.getLeftY()));
+    m_ElbowSubsystem.setDefaultCommand(new ElbowControl(m_ElbowSubsystem, m_operatorController.getRightY()));
 
     // Add commands to the autonomous command chooser
 
@@ -101,9 +116,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Bring Flag up when A is held
     new JoystickButton(m_driverController, Button.kA.value).onTrue(new FlagUp(m_servoSubsystem)).onFalse(new FlagDown(m_servoSubsystem));
-    // Release the hatch when the 'B' button is pressed.
+    // Grip item when the 'B' button is pressed.
     new JoystickButton(m_driverController, Button.kB.value)
-        .onTrue(new TestCommand(m_ServoArmSubsystem));
+        .onTrue(new ClawGrab(m_ClawSubsystem))
+        .onFalse(new ClawRelease(m_ClawSubsystem));
+
     // While holding the shoulder button, drive at half speed
     new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new HalveDriveSpeed(m_robotDrive));
