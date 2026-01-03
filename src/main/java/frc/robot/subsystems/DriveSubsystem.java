@@ -62,6 +62,11 @@ public class DriveSubsystem extends SubsystemBase {
     System.out.println("Yaw:" + getYaw());
     System.out.println("Roll:" + getRoll());
   }
+
+  public void setVoltage(double leftVolts, double rightVolts) {
+    m_leftLeader.setVoltage(leftVolts);
+    m_rightLeader.setVoltage(rightVolts);
+  }
   
   public double averageDistanceDriven() {
     return ((m_leftLeader.getSelectedSensorPosition() + m_rightLeader.getSelectedSensorPosition()) / 2.0) * DriveConstants.kEncoderDistancePerPulse;
