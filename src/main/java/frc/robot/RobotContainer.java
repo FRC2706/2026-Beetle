@@ -14,6 +14,8 @@ import frc.robot.commands.ArcadeDrive;
 //import frc.robot.commands.GrabHatch;
 import frc.robot.commands.HalveDriveSpeed;
 import frc.robot.commands.startShooter;
+import frc.robot.commands.stopShooter;
+
 //import frc.robot.commands.ReleaseHatch;
 import frc.robot.subsystems.DriveSubsystem;
 //import frc.robot.subsystems.HatchSubsystem;
@@ -37,8 +39,8 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   //private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
-  private final XboxController driverController = new XboxController(OIConstants.kOperatorControllerPort);
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(driverController);
+  private final CommandXboxController operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(operatorController);
 
   // The autonomous routines
 
@@ -49,7 +51,7 @@ public class RobotContainer {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+    CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -99,10 +101,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    //setVoltage cmd when left trigger pressed (0.10 to prevent accidental triggering)
-    new JoystickButton(m_driverController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> System.out.println("running startShooter command")));
-
-    //replace print with this once button press detection working -> new startShooter(m_shooterSubsystem)
+    operatorController.leftTrigger().whileTrue(new startShooter(m_shooterSubsystem))
+                      .onFalse(new stopShooter(m_shooterSubsystem));
 
     // Grab the hatch when the 'A' button is pressed.
     //new JoystickButton(m_driverController, Button.kA.value).onTrue(new GrabHatch(m_hatchSubsystem));

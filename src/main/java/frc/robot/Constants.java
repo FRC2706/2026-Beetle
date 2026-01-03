@@ -53,6 +53,7 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int shooterSparkMaxCANID = 0;
+    public static final int shooterSparkMaxCANID = 4; 
+
   }
 }

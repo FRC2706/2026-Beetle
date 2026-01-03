@@ -2,10 +2,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants.ShooterConstants;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //imports for spark max code
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -18,35 +21,31 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-    private XboxController controller;
+    private CommandXboxController controller;
 
-    private SparkMax shooterMotor;
+    private final WPI_TalonSRX shooterMotor = new WPI_TalonSRX(4);
 
-    public ShooterSubsystem (XboxController controller){
+    public ShooterSubsystem (CommandXboxController controller){
         this.controller = controller;
         System.out.println("xboxcontroller var set up");
 
         System.out.println("[Init]Creating Shooter");
-        shooterMotor = new SparkMax(ShooterConstants.shooterSparkMaxCANID, MotorType.kBrushless);
-        SparkMaxConfig shooterMotorConfig = (SparkMaxConfig) new SparkMaxConfig()
-                        .inverted(true)
-                        .smartCurrentLimit(70)
-                        .idleMode(IdleMode.kBrake)
-                        .voltageCompensation(10);
+        
+        shooterMotor.configFactoryDefault();
+        shooterMotor.setInverted(false);
 
-        shooterMotor.configure(shooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+        //setNeutralMode(NeutralMode.Brake);
     }
 
     public void setVoltage(){
-        shooterMotor.set(controller.getLeftTriggerAxis()); //reads only left trigger presses
-        System.out.println("setVoltage cmd called");
+        System.out.println("setVoltage cmd called " + controller.getLeftTriggerAxis());
+        shooterMotor.set(controller.getLeftTriggerAxis()); 
         //note: if you set voltage to -voltage..i think it rotates in other direction?
     }
 
     public void stop(){
-        shooterMotor.stopMotor(); 
         System.out.println("stop cmd called");
+        shooterMotor.stopMotor(); 
     }
 
     public void periodic(){
